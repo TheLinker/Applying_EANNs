@@ -36,6 +36,7 @@ public class TrackManager : MonoBehaviour
     // Start position for cars
     private Vector3 startPosition;
     private Quaternion startRotation;
+	private Camera camera;
 
     // Struct for storing the current cars and their position on the track.
     private class RaceCar
@@ -159,6 +160,8 @@ public class TrackManager : MonoBehaviour
         //Hide checkpoints
         foreach (Checkpoint check in checkpoints)
             check.IsVisible = false;
+
+		camera = this.GetComponent<Camera>();
     }
     #endregion
 

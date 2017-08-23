@@ -294,8 +294,14 @@ public class GeneticAlgorithm
     {
         List<Genotype> intermediatePopulation = new List<Genotype>();
         intermediatePopulation.Add(currentPopulation[0]);
-        intermediatePopulation.Add(currentPopulation[1]);
-        intermediatePopulation.Add(currentPopulation[2]);
+
+		if(currentPopulation.Count>=2)
+    	    intermediatePopulation.Add(currentPopulation[1]);
+		else intermediatePopulation.Add(currentPopulation[0]);
+
+		if(currentPopulation.Count>=3)
+	        intermediatePopulation.Add(currentPopulation[2]);
+		else intermediatePopulation.Add(currentPopulation[0]);
 
         return intermediatePopulation;
     }

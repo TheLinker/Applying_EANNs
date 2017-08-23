@@ -28,36 +28,44 @@ public class UINeuralNetworkPanel : MonoBehaviour
         UINeuralNetworkLayerPanel dummyLayer = Layers[0];
 
         //Duplicate dummyLayer
-        for (int i = Layers.Count; i < neuralNet.Layers.Length + 1; i++)
-        {
-            UINeuralNetworkLayerPanel newPanel = Instantiate(dummyLayer);
-            newPanel.transform.SetParent(this.transform, false);
-            Layers.Add(newPanel);
-        }
+		for(int i = Layers.Count; i < neuralNet.Layers.Length + 1; i++) {
+			UINeuralNetworkLayerPanel newPanel = Instantiate(dummyLayer);
+			newPanel.transform.SetParent(this.transform, false);
+			Layers.Add(newPanel);
+		}
 
         //Destory all unnecessary layers
-        for (int i = this.Layers.Count-1; i >= neuralNet.Layers.Length + 1; i++)
-        {
-            UINeuralNetworkLayerPanel toBeDestroyed = Layers[i];
-            Layers.RemoveAt(i);
-            Destroy(toBeDestroyed);
-        }
+		for(int i = this.Layers.Count - 1; i >= neuralNet.Layers.Length + 1; i++) {
+			UINeuralNetworkLayerPanel toBeDestroyed = Layers[i];
+			Layers.RemoveAt(i);
+			Destroy(toBeDestroyed);
+		}
         
         //Set layer contents
-        for (int l = 0; l<this.Layers.Count - 1; l++)
-            this.Layers[l].Display(neuralNet.Layers[l]);
+		for(int l = 0; l < this.Layers.Count - 1; l++) {
+			this.Layers[l].Display(neuralNet.Layers[l]);
+		}
 
         this.Layers[Layers.Count - 1].Display(neuralNet.Layers[neuralNet.Layers.Length - 1].OutputCount);
 
         StartCoroutine(DrawConnections(neuralNet));
     }
 
+	public void RefreshNodes(NeuralNetwork neuralNet)
+	{
+		for (int l = 0; l < this.Layers.Count-1; l++)
+			this.Layers[l].RefreshNodes(neuralNet.Layers[l]);
+
+		//For the last layer, we need to update the node from the last_output
+		this.Layers[this.Layers.Count-1].RefreshNodes(neuralNet.Layers[this.Layers.Count-2], false);
+	}
+
     // Draw the connections (coroutine).
     private IEnumerator DrawConnections(NeuralNetwork neuralNet)
     {
         yield return new WaitForEndOfFrame();
 
-        //Draw node connections
+		//Draw node connections
         for (int l = 0; l < this.Layers.Count - 1; l++)
             this.Layers[l].DisplayConnections(neuralNet.Layers[l], this.Layers[l + 1]);
         

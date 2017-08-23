@@ -10,7 +10,7 @@ using System;
 /// </summary>
 public class NeuralNetwork
 {
-    #region Members
+	#region Members
     /// <summary>
     /// The individual neural layers of this network.
     /// </summary>

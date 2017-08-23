@@ -1,0 +1,13 @@
+Evaluation of a Population with size 50, on Track "Track1", using the following GA operators: 
+Selection: DefaultSelectionOperator
+Recombination: RandomRecombination
+Mutation: MutateAllButBestTwo
+FitnessCalculation: DefaultFitnessCalculation
+
+1	0.3803166
+2	0.7429963
+3	0.7429963
+4	0.7429963
+5	0.7429963
+6	0.7483662
+7	0.7477706

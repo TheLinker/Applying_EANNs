@@ -35,7 +35,7 @@ public class EvolutionManager : MonoBehaviour
 
     // Population size, to be set in Unity Editor
     [SerializeField]
-    private int PopulationSize = 30;
+    private int PopulationSize = 100;
 
     // After how many generations should the genetic algorithm be restart (0 for never), to be set in Unity Editor
     [SerializeField]

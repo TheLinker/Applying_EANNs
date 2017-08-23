@@ -56,7 +56,7 @@ public class Sensor : MonoBehaviour
         else if (hit.distance < MIN_DIST)
             hit.distance = MIN_DIST;
 
-        this.Output = hit.distance; //transform to percent of max distance
+		this.Output = hit.distance / MAX_DIST; //transform to percent of max distance
         Cross.transform.position = (Vector2) this.transform.position + direction * hit.distance; //Set position of visual cross to current reading
 	}
 

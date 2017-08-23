@@ -66,6 +66,8 @@ public class UISimulationController : MonoBehaviour
             //Display evaluation and generation count
             Evaluation.text = Target.Agent.Genotype.Evaluation.ToString();
             GenerationCount.text = EvolutionManager.Instance.GenerationCount.ToString();
+
+			NeuralNetPanel.RefreshNodes(target.Agent.FNN);
         }
     }
 

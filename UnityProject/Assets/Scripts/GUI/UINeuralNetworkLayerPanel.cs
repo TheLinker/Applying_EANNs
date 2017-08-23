@@ -3,6 +3,7 @@
 
 #region Includes
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 #endregion
 
@@ -17,7 +18,7 @@ public class UINeuralNetworkLayerPanel : MonoBehaviour
     private RectTransform LayerContents;
     [SerializeField]
     public List<UINeuralNetworkConnectionPanel> Nodes;
-    #endregion
+	    #endregion
 
     #region Methods
     /// <summary>
@@ -54,16 +55,48 @@ public class UINeuralNetworkLayerPanel : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Displays all connections from between the given two layers.
-    /// </summary>
-    /// <param name="currentLayer">The layer that is connected to the other layer.</param>
-    /// <param name="nextLayer">The layer that the other layer is connected to.</param>
-    public void DisplayConnections(NeuralLayer currentLayer, UINeuralNetworkLayerPanel nextLayer)
-    {
-        for (int i = 0; i<Nodes.Count; i++)
-            Nodes[i].DisplayConnections(i, currentLayer, nextLayer);
-    }
+	/// <summary>
+	/// Displays all connections from between the given two layers.
+	/// </summary>
+	/// <param name="currentLayer">The layer that is connected to the other layer.</param>
+	/// <param name="nextLayer">The layer that the other layer is connected to.</param>
+	public void DisplayConnections(NeuralLayer currentLayer, UINeuralNetworkLayerPanel nextLayer)
+	{
+		for(int i = 0; i < Nodes.Count; i++) {
+			if(currentLayer.last_inputs != null) {
+				float g = (float)((currentLayer.last_inputs[i]+1.0) / 2);
+				Image img = Nodes[i].GetComponent<Image>();
+				//Debug.Log("i: "+i+" g:" + g);
+				img.color = new Color(g, g, g, 1);
+			}
+
+			Nodes[i].DisplayConnections(i, currentLayer, nextLayer);
+		}
+	}
+
+	/// <summary>
+	/// refreshes color for all nodes.
+	/// </summary>
+	/// <param name="currentLayer">The layer that contains the nodes.</param>
+	public void RefreshNodes(NeuralLayer currentLayer, bool use_inputs = true)
+	{
+		double[] vars = currentLayer.last_inputs;
+		if(!use_inputs) {
+			vars = currentLayer.last_outputs;
+		}
+
+		for(int i = 0; i < Nodes.Count; i++) {
+			if(vars != null) {
+				float g = (float)((vars[i] + 1.0) / 2);
+				if(!use_inputs) {
+					g = (float)((vars[i] + 1.0) / 2);
+				}
+				Image img = Nodes[i].GetComponent<Image>();
+				//Debug.Log("i: "+i+" g:" + g);
+				img.color = new Color(g, g, g, 1);
+			}
+		}
+	}
 
     /// <summary>
     /// Hides all connections that are currently being drawn.

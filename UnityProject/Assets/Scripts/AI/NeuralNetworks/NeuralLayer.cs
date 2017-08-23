@@ -3,6 +3,8 @@
 
 #region Includes
 using System;
+using System.Linq;
+using UnityEngine;
 #endregion
 
 /// <summary>
@@ -11,7 +13,7 @@ using System;
 public class NeuralLayer
 {
     #region Members
-    private static Random randomizer = new Random();
+	private static System.Random randomizer = new System.Random();
 
     /// <summary>
     /// Delegate representing the activation function of an artificial neuron.
@@ -24,7 +26,7 @@ public class NeuralLayer
     /// The activation function used by the neurons of this layer.
     /// </summary>
     /// <remarks>The default activation function is the sigmoid function (see <see cref="MathHelper.SigmoidFunction(double)"/>).</remarks>
-    public ActivationFunction NeuronActivationFunction = MathHelper.SigmoidFunction;
+	public ActivationFunction NeuronActivationFunction = MathHelper.SigmoidFunction;
 
     /// <summary>
     /// The amount of neurons in this layer.
@@ -54,6 +56,19 @@ public class NeuralLayer
         get;
         private set;
     }
+
+	public double[] last_inputs
+	{
+		get;
+		private set;
+	}
+
+	public double[] last_outputs
+	{
+		get;
+		private set;
+	}
+
     #endregion
 
     #region Constructors
@@ -105,7 +120,15 @@ public class NeuralLayer
     /// <returns>The calculated outputs.</returns>
     public double[] ProcessInputs(double[] inputs)
     {
-        //Check arguments
+		last_inputs = (double[])inputs.Clone();
+/*
+		string deb = "";
+		foreach (double val in inputs) {
+			deb += val+"\t";
+		}
+		Debug.Log (deb);
+*/
+		//Check arguments
         if (inputs.Length != NeuronCount)
             throw new ArgumentException("Given xValues do not match layer input count.");
 
@@ -127,6 +150,15 @@ public class NeuralLayer
                 sums[i] = NeuronActivationFunction(sums[i]);
         }
 
+//		Debug.Log (sums.ToString());
+/*
+		string deb2 = "";
+		foreach (double val in sums) {
+			deb2 += val+"\t";
+		}
+		Debug.Log (deb2);
+*/
+		last_outputs = (double[])sums.Clone();
         return sums;
     }
 
